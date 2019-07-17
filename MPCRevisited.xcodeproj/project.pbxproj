@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130CB93022DF88DD00EEF89A /* Data+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CB92F22DF88DD00EEF89A /* Data+Ext.swift */; };
+		130CB93222DF896600EEF89A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130CB93122DF896600EEF89A /* AlertPresenter.swift */; };
 		C043655F1A626BA0000E0F15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C043655E1A626BA0000E0F15 /* AppDelegate.swift */; };
 		C04365611A626BA0000E0F15 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04365601A626BA0000E0F15 /* ViewController.swift */; };
 		C04365641A626BA0000E0F15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C04365621A626BA0000E0F15 /* Main.storyboard */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		130CB92F22DF88DD00EEF89A /* Data+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Ext.swift"; sourceTree = "<group>"; };
+		130CB93122DF896600EEF89A /* AlertPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		C04365591A626BA0000E0F15 /* MPCRevisited.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MPCRevisited.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C043655D1A626BA0000E0F15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C043655E1A626BA0000E0F15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 		C043655B1A626BA0000E0F15 /* MPCRevisited */ = {
 			isa = PBXGroup;
 			children = (
+				130CB93122DF896600EEF89A /* AlertPresenter.swift */,
 				C043655E1A626BA0000E0F15 /* AppDelegate.swift */,
 				C04365601A626BA0000E0F15 /* ViewController.swift */,
 				C04365801A626D11000E0F15 /* ChatViewController.swift */,
@@ -89,6 +94,7 @@
 				C04365651A626BA0000E0F15 /* Images.xcassets */,
 				C04365671A626BA0000E0F15 /* LaunchScreen.xib */,
 				C043655C1A626BA0000E0F15 /* Supporting Files */,
+				130CB92F22DF88DD00EEF89A /* Data+Ext.swift */,
 			);
 			path = MPCRevisited;
 			sourceTree = "<group>";
@@ -167,6 +173,7 @@
 				TargetAttributes = {
 					C04365581A626BA0000E0F15 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = MDWBDEPC5G;
 					};
 					C043656D1A626BA1000E0F15 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -179,6 +186,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -219,9 +227,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C04365611A626BA0000E0F15 /* ViewController.swift in Sources */,
+				130CB93022DF88DD00EEF89A /* Data+Ext.swift in Sources */,
 				C04365811A626D11000E0F15 /* ChatViewController.swift in Sources */,
 				C04365831A627A8C000E0F15 /* MPCManager.swift in Sources */,
 				C043655F1A626BA0000E0F15 /* AppDelegate.swift in Sources */,
+				130CB93222DF896600EEF89A /* AlertPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,11 +307,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -333,9 +344,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -344,9 +356,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MDWBDEPC5G;
 				INFOPLIST_FILE = MPCRevisited/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.serglam.MPCRevisited;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -355,9 +369,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MDWBDEPC5G;
 				INFOPLIST_FILE = MPCRevisited/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.serglam.MPCRevisited;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

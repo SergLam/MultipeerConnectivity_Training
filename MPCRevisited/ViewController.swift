@@ -9,18 +9,16 @@
 import UIKit
 import MultipeerConnectivity
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MPCManagerDelegate {
+class ViewController: UIViewController {
 
     @IBOutlet weak var tblPeers: UITableView!
     
-    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     var isAdvertising: Bool!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         tblPeers.delegate = self
         tblPeers.dataSource = self
@@ -28,22 +26,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         appDelegate.mpcManager.delegate = self
         
         appDelegate.mpcManager.browser.startBrowsingForPeers()
-        
         appDelegate.mpcManager.advertiser.startAdvertisingPeer()
-        
         isAdvertising = true
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 
     // MARK: IBAction method implementation
     
     @IBAction func startStopAdvertising(sender: AnyObject) {
-        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let actionSheet = UIAlertController(title: "", message: "Change Visibility", preferredStyle: .actionSheet)
         
         var actionTitle: String
         if isAdvertising == true {
@@ -53,7 +44,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             actionTitle = "Make me visible to others"
         }
         
-        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        let visibilityAction: UIAlertAction = UIAlertAction(title: actionTitle, style: .default) { (alertAction) -> Void in
             if self.isAdvertising == true {
                 self.appDelegate.mpcManager.advertiser.stopAdvertisingPeer()
             }
@@ -64,52 +55,62 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             self.isAdvertising = !self.isAdvertising
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) -> Void in
             
         }
         
         actionSheet.addAction(visibilityAction)
         actionSheet.addAction(cancelAction)
         
-        self.presentViewController(actionSheet, animated: true, completion: nil)
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
+}
+
+// MARK: - UITableViewDataSource
+extension ViewController: UITableViewDataSource {
     
-    
-    // MARK: UITableView related method implementation
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "idCellPeer") else {
+            preconditionFailure("Unable to dequeueReusableCell")
+        }
+        cell.textLabel?.text = appDelegate.mpcManager.foundPeers[indexPath.row].displayName
+        return cell
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return appDelegate.mpcManager.foundPeers.count
     }
     
+}
+
+// MARK: - UITableViewDelegate
+extension ViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("idCellPeer") as UITableViewCell
-            
-        cell.textLabel?.text = appDelegate.mpcManager.foundPeers[indexPath.row].displayName
-            
-        return cell
-    }
-    
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60.0
     }
     
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectedPeer = appDelegate.mpcManager.foundPeers[indexPath.row] as MCPeerID
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        appDelegate.mpcManager.browser.invitePeer(selectedPeer, toSession: appDelegate.mpcManager.session, withContext: nil, timeout: 20)
+        let selectedPeer = appDelegate.mpcManager.foundPeers[indexPath.row] as MCPeerID
+        appDelegate.mpcManager.browser.invitePeer(selectedPeer, to: appDelegate.mpcManager.session, withContext: nil, timeout: 20)
     }
+   
+}
+
+// MARK: - MPCManagerDelegate
+extension ViewController: MPCManagerDelegate {
     
-    
-    // MARK: MPCManagerDelegate method implementation
+    func didReceivedError(error: String) {
+        AlertPresenter.showError(at: self, error: error)
+    }
     
     func foundPeer() {
         tblPeers.reloadData()
@@ -121,29 +122,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func invitationWasReceived(fromPeer: String) {
-        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: UIAlertControllerStyle.Alert)
-            
-            let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: UIAlertActionStyle.Default) { (alertAction) -> Void in
+        let alert = UIAlertController(title: "", message: "\(fromPeer) wants to chat with you.", preferredStyle: .alert)
+        
+        let acceptAction: UIAlertAction = UIAlertAction(title: "Accept", style: .default) { (alertAction) -> Void in
             self.appDelegate.mpcManager.invitationHandler(true, self.appDelegate.mpcManager.session)
         }
         
-        let declineAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel) { (alertAction) -> Void in
+        let declineAction = UIAlertAction(title: "Cancel", style: .cancel) { (alertAction) -> Void in
             self.appDelegate.mpcManager.invitationHandler(false, nil)
         }
         
         alert.addAction(acceptAction)
         alert.addAction(declineAction)
         
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            self.presentViewController(alert, animated: true, completion: nil)
+        OperationQueue.main.addOperation { () -> Void in
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     
     func connectedWithPeer(peerID: MCPeerID) {
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            self.performSegueWithIdentifier("idSegueChat", sender: self)
+        OperationQueue.main.addOperation { () -> Void in
+            self.performSegue(withIdentifier: "idSegueChat", sender: self)
         }
     }
 }
-
